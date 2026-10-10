@@ -15,13 +15,13 @@ const Career = () => {
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Intern</h4>
-                <h5>National Aluminium Company Limited (NALCO)</h5>
+                <h4>Intern, System Department</h4>
+                <h5>National Aluminium Company Limited (NALCO) — Angul, Odisha</h5>
               </div>
               <h3>Jun 2025 - Jul 2025</h3>
             </div>
             <p>
-              Contributed to enterprise-level software development and assisted in optimizing database queries to improve system performance. Supported workflow automation processes and participated in testing and validation of software systems to ensure reliability and smooth operation.
+              Gained exposure to enterprise software and database operations supporting plant workflows. Observed workflow automation and testing practices, and visited the server room to understand the IT infrastructure behind day-to-day operations.
             </p>
           </div>
           <div className="career-info-box">
@@ -33,7 +33,7 @@ const Career = () => {
               <h3>Jan 2024 - Feb 2024</h3>
             </div>
             <p>
-              Worked on developing scalable software modules using Python, automated data processing tasks, and collaborated in an Agile development environment.
+              Developed software modules in Python, automated data-processing tasks, and collaborated with a team in an Agile development environment.
             </p>
           </div>
         </div>

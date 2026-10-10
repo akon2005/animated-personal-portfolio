@@ -10,12 +10,13 @@ const Training = () => {
         </h2>
         <div className="career-info" style={{ width: "100%", alignItems: "center" }}>
           <ul className="training-list">
-            <li>AI-ML Virtual Internship – EduSkills (Supported by Google for Developers)</li>
-            <li>Python Programming Certification</li>
-            <li>Database Management and Backend Development</li>
-            <li>Full Stack Web Development Training</li>
-            <li>Machine Learning and Computer Vision using Python</li>
-            <li>Adobe Design Fundamentals with AI Certification</li>
+            <li>AI-ML Internship — EduSkills</li>
+            <li>GenAI &amp; LLMs Internship — EduSkills</li>
+            <li>Anthropic Courses — Claude and MCP</li>
+            <li>Spring Boot — Infosys Springboard</li>
+            <li>The Joy of Computing using Python — NPTEL</li>
+            <li>Programming in Java — NPTEL</li>
+            <li>Adobe Design Fundamentals</li>
           </ul>
         </div>
       </div>

@@ -3,6 +3,15 @@ import { DRACOLoader, GLTF, GLTFLoader } from "three-stdlib";
 import { setCharTimeline, setAllTimeline } from "../../utils/GsapScroll";
 import { decryptFile } from "./decrypt";
 
+/**
+ * Bare-skin meshes of the character. The exported model shares a single
+ * material (`default`) between the skin, the clothes and the room props, so the
+ * material is cloned for these meshes before tinting - otherwise the shirt,
+ * pants, shoes, desk, chair and ground get repainted as well.
+ */
+const skinMeshNames = ["Ear001", "Neck", "Hand"];
+const skinColor = 0xffccb4;
+
 const setCharacter = (
   renderer: THREE.WebGLRenderer,
   scene: THREE.Scene,
@@ -13,54 +22,52 @@ const setCharacter = (
   dracoLoader.setDecoderPath("/draco/");
   loader.setDRACOLoader(dracoLoader);
 
-  const loadCharacter = () => {
-    return new Promise<GLTF | null>(async (resolve, reject) => {
-      try {
-        const encryptedBlob = await decryptFile(
-          "/models/character.enc",
-          "Character3D#@"
-        );
-        const blobUrl = URL.createObjectURL(new Blob([encryptedBlob]));
+  const loadCharacter = async (): Promise<GLTF | null> => {
+    const encryptedBlob = await decryptFile(
+      "/models/character.enc",
+      "Character3D#@"
+    );
+    const blobUrl = URL.createObjectURL(new Blob([encryptedBlob]));
 
-        let character: THREE.Object3D;
-        loader.load(
-          blobUrl,
-          async (gltf) => {
-            character = gltf.scene;
-            await renderer.compileAsync(character, camera, scene);
-            character.traverse((child: any) => {
-              if (child.isMesh) {
-                const mesh = child as THREE.Mesh;
-                child.castShadow = true;
-                child.receiveShadow = true;
-                mesh.frustumCulled = true;
-                
-                const mat = mesh.material as any;
-                if (mat && mat.color) {
-                  const name = (mesh.name + " " + (mat.name || "")).toLowerCase();
-                  if (!name.includes("hat") && !name.includes("cap") && !name.includes("shirt") && !name.includes("cloth") && !name.includes("eye") && !name.includes("teeth") && !name.includes("hair") && !name.includes("shoe") && !name.includes("pant")) {
-                    mat.color.setHex(0xffccb4);
-                  }
-                }
+    return new Promise<GLTF | null>((resolve, reject) => {
+      loader.load(
+        blobUrl,
+        async (gltf) => {
+          const character: THREE.Object3D = gltf.scene;
+          await renderer.compileAsync(character, camera, scene);
+          character.traverse((child) => {
+            const mesh = child as THREE.Mesh;
+            if (!mesh.isMesh) return;
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+            mesh.frustumCulled = true;
+
+            if (skinMeshNames.includes(mesh.name)) {
+              const mat = mesh.material as THREE.MeshStandardMaterial;
+              if (mat && mat.color) {
+                const skinMaterial = mat.clone();
+                skinMaterial.color.setHex(skinColor);
+                mesh.material = skinMaterial;
               }
-            });
-            resolve(gltf);
-            setCharTimeline(character, camera);
-            setAllTimeline();
-            character!.getObjectByName("footR")!.position.y = 3.36;
-            character!.getObjectByName("footL")!.position.y = 3.36;
-            dracoLoader.dispose();
-          },
-          undefined,
-          (error) => {
-            console.error("Error loading GLTF model:", error);
-            reject(error);
-          }
-        );
-      } catch (err) {
-        reject(err);
-        console.error(err);
-      }
+            }
+          });
+          resolve(gltf);
+          setCharTimeline(character, camera);
+          setAllTimeline();
+          // The intro clip drives the feet every frame, so this only sets the
+          // starting pose of the model (matches the rest pose of the mesh).
+          const footR = character.getObjectByName("footR");
+          const footL = character.getObjectByName("footL");
+          if (footR) footR.position.y = 3.46;
+          if (footL) footL.position.y = 3.46;
+          dracoLoader.dispose();
+        },
+        undefined,
+        (error) => {
+          console.error("Error loading GLTF model:", error);
+          reject(error);
+        }
+      );
     });
   };
 

@@ -90,21 +90,26 @@ const WhatIDo = () => {
               <h3>DEVELOP</h3>
               <h4>Description</h4>
               <p>
-                Passionate about building scalable applications, designing efficient database schemas, and writing clean, maintainable code.
+                Building practical software and AI-powered applications — from data structures and machine learning workflows to retrieval-augmented generation systems and modern web interfaces.
               </p>
-              <h5>Skillset & tools</h5>
+              <h5>Skillset &amp; tools</h5>
               <div className="what-content-flex">
                 <div className="what-tags">Python</div>
-                <div className="what-tags">Java</div>
-                <div className="what-tags">C</div>
-                <div className="what-tags">Data Structures</div>
-                <div className="what-tags">Algorithms</div>
-                <div className="what-tags">MongoDB</div>
-                <div className="what-tags">REST APIs</div>
+                <div className="what-tags">SQL</div>
+                <div className="what-tags">Data Structures &amp; Algorithms</div>
+                <div className="what-tags">Machine Learning</div>
+                <div className="what-tags">Generative AI</div>
+                <div className="what-tags">LLMs</div>
+                <div className="what-tags">RAG</div>
+                <div className="what-tags">MCP</div>
+                <div className="what-tags">PyTorch</div>
                 <div className="what-tags">OpenCV</div>
-                <div className="what-tags">React.js</div>
-                <div className="what-tags">Node.js</div>
-                <div className="what-tags">Express.js</div>
+                <div className="what-tags">Sentence-Transformers</div>
+                <div className="what-tags">React</div>
+                <div className="what-tags">FastAPI</div>
+                <div className="what-tags">Tailwind CSS</div>
+                <div className="what-tags">ChromaDB</div>
+                <div className="what-tags">FAISS</div>
               </div>
               <div className="what-arrow"></div>
             </div>
@@ -131,15 +136,16 @@ const WhatIDo = () => {
               <h3>SOFT SKILLS</h3>
               <h4>Description</h4>
               <p>
-                Strong interpersonal skills that enable effective collaboration, continuous learning, and successful project execution.
+                Working with teams to plan, build and ship — taking ownership of my work, communicating clearly and following through to the end.
               </p>
               <h5>Key Traits</h5>
               <div className="what-content-flex">
-                <div className="what-tags">Communication</div>
-                <div className="what-tags">Leadership</div>
-                <div className="what-tags">Time Management</div>
-                <div className="what-tags">Teamwork</div>
-                <div className="what-tags">Problem Solving</div>
+                <div className="what-tags">Ownership &amp; Accountability</div>
+                <div className="what-tags">Strategic Thinking</div>
+                <div className="what-tags">Team Coordination</div>
+                <div className="what-tags">Interpersonal Communication</div>
+                <div className="what-tags">Cross-Functional Collaboration</div>
+                <div className="what-tags">Execution &amp; Follow-Through</div>
               </div>
               <div className="what-arrow"></div>
             </div>

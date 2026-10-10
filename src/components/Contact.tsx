@@ -20,20 +20,24 @@ const Contact = () => {
                 +91 70086 92852
               </a>
             </p>
+            <h4>Location</h4>
+            <p>Gunupur, Odisha, India</p>
           </div>
           <div className="contact-box">
             <h4>Social</h4>
             <a
               href="https://github.com/akon2005"
               target="_blank"
+              rel="noopener noreferrer"
               data-cursor="disable"
               className="contact-social"
             >
               Github <MdArrowOutward />
             </a>
             <a
-              href="https://www.linkedin.com/in/vinayak-tripathy-7931502a3"
+              href="https://www.linkedin.com/in/vinayaktripathy"
               target="_blank"
+              rel="noopener noreferrer"
               data-cursor="disable"
               className="contact-social"
             >

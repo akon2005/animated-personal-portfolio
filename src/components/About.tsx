@@ -6,7 +6,7 @@ const About = () => {
       <div className="about-me">
         <h3 className="title">About Me</h3>
         <p className="para">
-          Seeking a challenging position in software development where I can apply my skills in Python, Java, and full-stack development to build scalable applications and innovative solutions. I aim to contribute to organizational success while continuously improving my technical and problem-solving abilities.
+          I'm a Computer Science and Engineering student at GIET University, focused on software development and applied AI. My work spans data structures and algorithms, machine learning, retrieval-augmented generation, and modern web development. Through academic projects and internship experience, I keep building on my problem-solving, teamwork, and software engineering skills — and I enjoy turning ideas into useful applications.
         </p>
         <img src="/images/profile.jpg" alt="Vinayak Tripathy" className="profile-img" />
       </div>

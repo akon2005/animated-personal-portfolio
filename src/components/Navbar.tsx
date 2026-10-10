@@ -4,14 +4,14 @@ import "./styles/Navbar.css";
 
 const Navbar = () => {
   useEffect(() => {
-    let links = document.querySelectorAll(".header ul a");
+    const links = document.querySelectorAll(".header ul a");
     links.forEach((elem) => {
-      let element = elem as HTMLAnchorElement;
+      const element = elem as HTMLAnchorElement;
       element.addEventListener("click", (e) => {
         if (window.innerWidth > 1024) {
           e.preventDefault();
-          let elem = e.currentTarget as HTMLAnchorElement;
-          let section = elem.getAttribute("data-href");
+          const elem = e.currentTarget as HTMLAnchorElement;
+          const section = elem.getAttribute("data-href");
           if (section) {
             document.querySelector(section)?.scrollIntoView({
               behavior: "smooth",
@@ -52,7 +52,11 @@ const Navbar = () => {
             </a>
           </li>
           <li>
-            <a href="/Resume.pdf" target="_blank" rel="noreferrer">
+            <a
+              href="/Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <HoverLinks text="RESUME" />
             </a>
           </li>
