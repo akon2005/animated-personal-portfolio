@@ -1,42 +1,67 @@
-.work-section h2 {
-  margin-top: 100px;
-  font-size: 70px;
-  font-weight: 500;
-}
-.work-section h2 > span {
-  color: var(--accentColor);
-}
+/* The section is at least one viewport tall but grows if the cards need more,
+   so project content can never be cut off at the bottom. Only while the
+   horizontal scroll is actually pinned does it lock to a single viewport. */
 .work-section {
   transition: 0s;
-  height: 100vh;
+  height: auto;
+  min-height: var(--vh);
   box-sizing: border-box;
   will-change: transform;
+}
+.work-section.work-pinned {
+  height: var(--vh);
+  min-height: var(--vh);
 }
 .work-container {
   margin: auto;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: auto;
+  min-height: var(--vh);
   align-content: stretch;
+}
+.work-section.work-pinned .work-container {
+  height: 100%;
+  min-height: 0;
+}
+.work-section h2 {
+  margin-top: clamp(70px, 9vh, 110px);
+  margin-bottom: 0;
+  font-size: clamp(38px, 4.4vw, 70px);
+  font-weight: 500;
+  line-height: 1.05;
+}
+.work-section h2 > span {
+  color: var(--accentColor);
+}
+.work-lede {
+  margin: 10px 0 0;
+  color: #9c96a6;
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: 0.5px;
 }
 .work-flex {
   width: 100%;
   display: flex;
-  height: 100%;
+  /* Fills whatever height is left under the heading, so the cards can never
+     push past the bottom of the pinned section. */
+  flex: 1 1 auto;
+  min-height: 0;
   margin-left: -80px;
   padding-right: 120px;
   position: relative;
 }
 .work-box {
-  padding: 80px;
+  padding: 44px 80px 40px;
   display: flex;
   flex-direction: column;
   width: 600px;
   box-sizing: border-box;
   border-right: 1px solid #363636;
   flex-shrink: 0;
-  gap: 50px;
-  justify-content: start;
+  gap: 20px;
+  min-height: 0;
 }
 .work-flex .work-box:nth-child(even) {
   flex-direction: column-reverse;
@@ -55,48 +80,139 @@
 .work-flex::after {
   top: 100%;
 }
-.work-title {
-  justify-content: space-between;
+.work-info {
   display: flex;
-  width: 100%;
-  margin-bottom: 20px;
+  flex-direction: column;
+  gap: 18px;
+  flex: 0 0 auto;
+}
+.work-title {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+.work-index {
+  flex: 0 0 auto;
+  font-size: 40px;
+  line-height: 38px;
+  font-weight: 600;
+  color: var(--accentColor);
+  opacity: 0.85;
 }
 .work-title > div {
-  text-align: right;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 .work-title h3 {
-  font-size: 50px;
-  line-height: 50px;
   margin: 0;
-  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.3;
+  font-weight: 500;
+  letter-spacing: 0.2px;
 }
-
-.work-info h4 {
-  font-size: 18px;
-  font-weight: 400;
+.work-category {
+  margin: 8px 0 0;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: #c481ff;
+}
+.work-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.work-meta h4 {
   margin: 0;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 1.7px;
+  text-transform: uppercase;
+  color: #8f8a99;
 }
-.work-info p {
-  font-weight: 200;
+.work-meta p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 19px;
+  font-weight: 300;
   color: #adacac;
-  margin: 0;
-  margin-top: 3px;
 }
-.work-info > p {
-  width: 90%;
+.work-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.work-tags li {
+  font-size: 12px;
+  font-weight: 400;
+  padding: 3px 10px;
+  border-radius: 30px;
+  border: 1px solid #ffffff33;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ded9e6;
+}
+.work-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.work-highlights li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 300;
+  color: #adacac;
+}
+.work-highlights li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--accentColor);
+  box-shadow: 0 0 8px var(--accentColor);
 }
 .work-image {
+  position: relative;
   display: flex;
-  width: 100%;
-  justify-content: center;
+  /* Absorbs the leftover height so the card always fits the section. */
+  flex: 1 1 auto;
+  min-height: 240px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #ffffff1f;
+  background-color: #0b0716;
 }
 .work-image-in {
   position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.work-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+.work-image-in:hover img {
+  transform: scale(1.04);
 }
 .work-link {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  bottom: 12px;
+  right: 12px;
   background-color: var(--backgroundColor);
   width: 50px;
   border-radius: 50px;
@@ -109,6 +225,7 @@
     inset 0px 0px 10px 0px #393939;
   transition: 0.3s;
   opacity: 0;
+  z-index: 2;
 }
 .work-image a:hover {
   color: inherit;
@@ -125,100 +242,126 @@
   background-color: #000;
   object-fit: cover;
 }
-.work-image img {
-  max-width: 100%;
-  max-height: 350px;
-}
+
+/* Laptop-sized viewports: the denser type scale lets both cards fit inside one
+   viewport height instead of the section growing past it. */
 @media only screen and (max-height: 900px) {
-  .work-image img {
-    max-height: 250px;
+  .work-section h2 {
+    margin-top: 60px;
   }
   .work-box {
-    padding-top: 40px;
-    padding-bottom: 40px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    gap: 15px;
   }
+  .work-info {
+    gap: 11px;
+  }
+  .work-title h3 {
+    font-size: 18px;
+  }
+  .work-index {
+    font-size: 32px;
+    line-height: 30px;
+  }
+  .work-category {
+    margin-top: 5px;
+    font-size: 10.5px;
+  }
+  .work-meta {
+    gap: 6px;
+  }
+  .work-meta p {
+    font-size: 12.5px;
+    line-height: 17px;
+  }
+  .work-highlights {
+    gap: 5px;
+  }
+  .work-highlights li {
+    font-size: 12.5px;
+    line-height: 17px;
+  }
+  .work-image {
+    min-height: 180px;
+  }
+}
+@media only screen and (max-height: 650px) {
   .work-section h2 {
-    font-size: 60px;
-    margin-bottom: 30px;
-    margin-top: 70px;
+    margin-top: 60px;
+    font-size: 38px;
+  }
+  .work-box {
+    gap: 14px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .work-info {
+    gap: 12px;
+  }
+  .work-title h3 {
+    font-size: 18px;
   }
 }
 @media only screen and (max-width: 1400px) {
-  .work-title h3 {
-    font-size: 35px;
-  }
-  .work-info p {
-    font-size: 13px;
-  }
-  .work-info h4 {
-    font-size: 15px;
-  }
   .work-box {
     width: 450px;
-    padding: 50px;
+    padding: 36px 50px 32px;
   }
   .work-flex {
     margin-left: -50px;
     padding-right: 75px;
   }
-  .work-section h2 {
-    font-size: 50px;
+  .work-index {
+    font-size: 34px;
+    line-height: 32px;
+  }
+  .work-title h3 {
+    font-size: 19px;
+  }
+  .work-meta p,
+  .work-highlights li {
+    font-size: 13px;
+    line-height: 18px;
+  }
+  .work-tags li {
+    font-size: 11px;
   }
 }
-@media only screen and (max-width: 1400px) {
+@media only screen and (max-width: 1200px) {
   .work-box {
-    width: 350px;
-    padding: 30px;
+    width: 440px;
+    padding: 30px 40px 28px;
   }
   .work-flex {
-    margin-left: -30px;
-    padding-right: 45px;
+    margin-left: -40px;
+    padding-right: 60px;
   }
 }
 
-@media only screen and (max-height: 650px) {
-  .work-image img {
-    max-height: 200px;
-  }
-  .work-section h2 {
-    font-size: 40px;
-    margin-bottom: 20px;
-  }
-  .work-box {
-    gap: 20px;
-  }
-}
-/* @media only screen and (max-width: 900px) {
-  .work-image img {
-    max-height: 200px;
-  }
-  .work-section h2 {
-    font-size: 40px;
-    margin-bottom: 20px;
-  }
-  .work-box {
-    gap: 20px;
-  }
-} */
 /* Below the desktop breakpoint the horizontal scroll is not usable, so the
    cards become a normal, touch-friendly vertical stack and the section is no
    longer locked to one viewport height. */
 @media only screen and (max-width: 1024px) {
   .work-section {
     height: auto;
+    min-height: 0;
+    padding-bottom: 40px;
   }
   .work-section h2 {
     margin-top: 60px;
-    margin-bottom: 20px;
+    margin-bottom: 6px;
     font-size: clamp(38px, 11vw, 50px);
   }
   .work-container {
     height: auto;
+    min-height: 0;
     align-content: normal;
   }
   .work-flex {
     flex-direction: column;
-    height: auto;
+    flex: none;
+    min-height: 0;
     margin-left: 0;
     padding-right: 0;
   }
@@ -227,8 +370,8 @@
     flex-direction: column;
     width: 100%;
     flex-shrink: 1;
-    padding: 40px 0;
-    gap: 30px;
+    padding: 36px 0;
+    gap: 26px;
     border-right: none;
     border-bottom: 1px solid #363636;
   }
@@ -239,12 +382,13 @@
   .work-flex::after {
     display: none;
   }
-  .work-image img {
-    max-height: none;
-    width: 100%;
-    height: auto;
+  /* In the stacked layout the artwork keeps its own aspect ratio. */
+  .work-image {
+    flex: none;
+    aspect-ratio: 16 / 10;
+    min-height: 0;
   }
-  .work-info > p {
-    width: 100%;
+  .work-info {
+    gap: 16px;
   }
 }
