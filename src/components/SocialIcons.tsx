@@ -70,6 +70,7 @@ const SocialIcons = () => {
             href="https://github.com/akon2005"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Vinayak Tripathy on GitHub"
           >
             <FaGithub />
           </a>
@@ -79,24 +80,23 @@ const SocialIcons = () => {
             href="https://www.linkedin.com/in/vinayaktripathy"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Vinayak Tripathy on LinkedIn"
           >
             <FaLinkedinIn />
           </a>
         </span>
         <span>
-          <a href="mailto:vinayaktripathy2005@gmail.com">
+          <a
+            href="mailto:vinayaktripathy2005@gmail.com"
+            aria-label="Email Vinayak Tripathy"
+          >
             <TbMail />
           </a>
         </span>
       </div>
-      <a
-        className="resume-button"
-        href="/Resume.pdf"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a className="resume-button" href="/resume" data-cursor="disable">
         <HoverLinks text="RESUME" />
-        <span>
+        <span aria-hidden="true">
           <TbNotes />
         </span>
       </a>

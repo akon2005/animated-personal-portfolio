@@ -28,12 +28,24 @@ const Scene = () => {
     const scene = sceneRef.current;
     const canvasElement = canvasDiv.current;
 
-    const renderer = new THREE.WebGLRenderer({
-      alpha: true,
-      antialias: true,
-    });
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: true,
+      });
+    } catch (error) {
+      // No WebGL (blocked, unsupported or out of contexts): keep the portfolio
+      // usable without the 3D character instead of breaking the whole page, and
+      // let the loading screen finish so it cannot hang forever.
+      console.error("WebGL is unavailable; skipping the 3D character:", error);
+      setLoading(100);
+      return;
+    }
     renderer.setSize(container.width, container.height);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    // Cap the pixel ratio: high-DPI phones would otherwise render the scene at
+    // 3x, which costs a lot of GPU time for no visible gain here.
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1;
     canvasElement.appendChild(renderer.domElement);

@@ -200,11 +200,51 @@
     gap: 20px;
   }
 } */
-@media only screen and (max-width: 1025px) {
+/* Below the desktop breakpoint the horizontal scroll is not usable, so the
+   cards become a normal, touch-friendly vertical stack and the section is no
+   longer locked to one viewport height. */
+@media only screen and (max-width: 1024px) {
+  .work-section {
+    height: auto;
+  }
+  .work-section h2 {
+    margin-top: 60px;
+    margin-bottom: 20px;
+    font-size: clamp(38px, 11vw, 50px);
+  }
   .work-container {
+    height: auto;
     align-content: normal;
   }
   .work-flex {
+    flex-direction: column;
     height: auto;
+    margin-left: 0;
+    padding-right: 0;
+  }
+  .work-box,
+  .work-flex .work-box:nth-child(even) {
+    flex-direction: column;
+    width: 100%;
+    flex-shrink: 1;
+    padding: 40px 0;
+    gap: 30px;
+    border-right: none;
+    border-bottom: 1px solid #363636;
+  }
+  .work-flex .work-box:last-child {
+    border-bottom: none;
+  }
+  .work-flex::before,
+  .work-flex::after {
+    display: none;
+  }
+  .work-image img {
+    max-height: none;
+    width: 100%;
+    height: auto;
+  }
+  .work-info > p {
+    width: 100%;
   }
 }

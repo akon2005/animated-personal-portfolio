@@ -24,7 +24,14 @@ export const LoadingProvider = ({ children }: PropsWithChildren) => {
     setIsLoading,
     setLoading,
   };
-  useEffect(() => {}, [loading]);
+
+  // Safety net: if the 3D model never reports progress (WebGL unavailable,
+  // missing asset, failed request) the loading screen still finishes instead of
+  // trapping the visitor on it forever.
+  useEffect(() => {
+    const timeout = window.setTimeout(() => setLoading(100), 15000);
+    return () => window.clearTimeout(timeout);
+  }, []);
 
   return (
     <LoadingContext.Provider value={value as LoadingType}>

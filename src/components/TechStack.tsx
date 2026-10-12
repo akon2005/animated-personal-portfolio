@@ -129,27 +129,47 @@ const TechStack = () => {
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
+    const workSection = document.getElementById("work");
+
     const handleScroll = () => {
+      if (!workSection) return;
       const scrollY = window.scrollY || document.documentElement.scrollTop;
-      const threshold = document
-        .getElementById("work")!
-        .getBoundingClientRect().top;
+      const threshold = workSection.getBoundingClientRect().top;
       setIsActive(scrollY > threshold);
     };
-    document.querySelectorAll(".header a").forEach((elem) => {
-      const element = elem as HTMLAnchorElement;
-      element.addEventListener("click", () => {
-        const interval = setInterval(() => {
-          handleScroll();
-        }, 10);
-        setTimeout(() => {
-          clearInterval(interval);
-        }, 1000);
-      });
-    });
+
+    // Nav clicks smooth-scroll for a moment; poll the position while that
+    // happens. The polling intervals and timeouts are tracked so unmounting the
+    // scene cannot leave timers running.
+    const intervals = new Set<number>();
+    const timeouts = new Set<number>();
+    const links = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>(".header a")
+    );
+    const onClick = () => {
+      const interval = window.setInterval(handleScroll, 10);
+      intervals.add(interval);
+      const timeout = window.setTimeout(() => {
+        window.clearInterval(interval);
+        intervals.delete(interval);
+        timeouts.delete(timeout);
+      }, 1000);
+      timeouts.add(timeout);
+    };
+
+    links.forEach((element) => element.addEventListener("click", onClick));
     window.addEventListener("scroll", handleScroll);
+    handleScroll();
+
     return () => {
+      links.forEach((element) =>
+        element.removeEventListener("click", onClick)
+      );
       window.removeEventListener("scroll", handleScroll);
+      intervals.forEach((interval) => window.clearInterval(interval));
+      timeouts.forEach((timeout) => window.clearTimeout(timeout));
+      intervals.clear();
+      timeouts.clear();
     };
   }, []);
   const materials = useMemo(() => {

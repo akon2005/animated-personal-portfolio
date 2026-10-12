@@ -132,8 +132,8 @@
 }
 @media only screen and (max-width: 1400px) {
   .career-section h2 {
-    font-size: 50px;
-    line-height: 50px;
+    font-size: clamp(28px, 5vw, 50px);
+    line-height: 1.05;
   }
   .career-info h4 {
     font-size: 22px;
@@ -191,8 +191,10 @@
   }
   .career-section h2 {
     width: 100%;
-    font-size: 45px;
-    line-height: 45px;
+    /* Fluid instead of fixed: "Qualifications" is one word, so a hard 45px
+       overflowed (and was clipped) on 320px-wide screens. */
+    font-size: clamp(24px, 8.5vw, 45px);
+    line-height: 1.05;
     margin-top: 0px;
   }
   .career-info-in {

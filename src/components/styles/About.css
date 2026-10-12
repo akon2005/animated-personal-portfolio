@@ -24,9 +24,11 @@
 }
 
 .about-me p {
-  font-size: 33px;
+  /* Fluid so the intro paragraph does not turn into oversized, line-hungry
+     type on narrow phones. */
+  font-size: clamp(21px, 7.4vw, 33px);
   font-weight: 600;
-  line-height: 36px;
+  line-height: 1.12;
   letter-spacing: 1px;
 }
 

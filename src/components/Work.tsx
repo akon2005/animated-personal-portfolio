@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const projects = [
   {
@@ -33,7 +33,7 @@ const Work = () => {
     const container = document.querySelector(".work-container");
     if (!boxes.length || !container) return;
 
-    let translateX: number = 0;
+    let timeline: gsap.core.Timeline | null = null;
 
     function setTranslateX() {
       const rectLeft = container!.getBoundingClientRect().left;
@@ -41,35 +41,60 @@ const Work = () => {
       const parentWidth = boxes[0].parentElement!.getBoundingClientRect().width;
       const padding: number =
         parseInt(window.getComputedStyle(boxes[0]).padding) / 2;
-      translateX = rect.width * boxes.length - (rectLeft + parentWidth) + padding;
+      return rect.width * boxes.length - (rectLeft + parentWidth) + padding;
     }
 
-    setTranslateX();
+    const setup = () => {
+      if (timeline) {
+        ScrollTrigger.getById("work")?.kill();
+        timeline.kill();
+        timeline = null;
+      }
+      gsap.set(".work-flex", { clearProps: "transform" });
 
-    // Only pin and scroll horizontally when the cards actually overflow the
-    // viewport, otherwise (few projects) leave the row in place.
-    if (translateX <= 0) return;
+      const translateX = setTranslateX();
 
-    const timeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".work-section",
-        start: "top top",
-        end: `+=${translateX}`, // Use actual scroll width
-        scrub: true,
-        pin: true,
-        id: "work",
-      },
-    });
+      // Below the desktop breakpoint the cards are stacked vertically, so the
+      // section must not pin - pinning there trapped the second project behind
+      // the horizontal overflow that the page hides. Above it, the row only
+      // pins when the cards actually overflow the viewport.
+      if (window.innerWidth <= 1024 || translateX <= 0) return;
 
-    timeline.to(".work-flex", {
-      x: -translateX,
-      ease: "none",
-    });
+      timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".work-section",
+          start: "top top",
+          end: `+=${translateX}`, // Use actual scroll width
+          scrub: true,
+          pin: true,
+          invalidateOnRefresh: true,
+          id: "work",
+        },
+      });
 
-    // Clean up (optional, good practice)
+      timeline.to(".work-flex", {
+        x: -translateX,
+        ease: "none",
+      });
+    };
+
+    setup();
+
+    // Card widths change at the CSS breakpoints, which makes the old pin
+    // distance stale, so the timeline is measured again after a resize.
+    let resizeTimer: number | undefined;
+    const onResize = () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(setup, 250);
+    };
+    window.addEventListener("resize", onResize);
+
     return () => {
-      timeline.kill();
+      window.clearTimeout(resizeTimer);
+      window.removeEventListener("resize", onResize);
       ScrollTrigger.getById("work")?.kill();
+      timeline?.kill();
+      timeline = null;
     };
   }, []);
 

@@ -5,22 +5,32 @@ import "./styles/Navbar.css";
 const Navbar = () => {
   useEffect(() => {
     const links = document.querySelectorAll(".header ul a");
+    const handlers: Array<[HTMLAnchorElement, (e: Event) => void]> = [];
+
     links.forEach((elem) => {
       const element = elem as HTMLAnchorElement;
-      element.addEventListener("click", (e) => {
-        if (window.innerWidth > 1024) {
+      const onClick = (e: Event) => {
+        const section = element.getAttribute("data-href");
+        // Only intercept links that point at an in-page section; links such as
+        // RESUME must keep their normal navigation (this used to be swallowed by
+        // an unconditional preventDefault on desktop).
+        if (section && window.innerWidth > 1024) {
           e.preventDefault();
-          const elem = e.currentTarget as HTMLAnchorElement;
-          const section = elem.getAttribute("data-href");
-          if (section) {
-            document.querySelector(section)?.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }
+          document.querySelector(section)?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
         }
-      });
+      };
+      element.addEventListener("click", onClick);
+      handlers.push([element, onClick]);
     });
+
+    return () => {
+      handlers.forEach(([element, handler]) => {
+        element.removeEventListener("click", handler);
+      });
+    };
   }, []);
   return (
     <>
@@ -52,11 +62,7 @@ const Navbar = () => {
             </a>
           </li>
           <li>
-            <a
-              href="/Resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="/resume" data-cursor="disable">
               <HoverLinks text="RESUME" />
             </a>
           </li>

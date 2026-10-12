@@ -1,14 +1,77 @@
 import * as THREE from "three";
 import gsap from "gsap";
 
+export type ScrollMode = "desktop" | "mobile";
+
+/**
+ * Timelines and repeating tweens owned by this module.
+ *
+ * `setCharTimeline` / `setAllTimeline` can be called again when the desktop
+ * breakpoint is crossed, so every repeating resource they create is tracked here
+ * and released before a rebuild. Previously the 200ms intensity interval and the
+ * infinite screen-light tween were created on every call and never cleaned up,
+ * so each resize left another pair of loops running.
+ */
+let intensityInterval: number | undefined;
+let glowTimeline: gsap.core.Timeline | null = null;
+let charTimelines: gsap.core.Timeline[] = [];
+let careerTimeline: gsap.core.Timeline | null = null;
+let charMode: ScrollMode | null = null;
+
+const killTimeline = (timeline: gsap.core.Timeline | null) => {
+  if (!timeline) return;
+  timeline.scrollTrigger?.kill();
+  timeline.kill();
+};
+
+/** The layout the currently built character timelines were created for. */
+export function getCharScrollMode(): ScrollMode | null {
+  return charMode;
+}
+
+/**
+ * Releases everything the character timelines own. Also clears the inline
+ * transforms/opacity the desktop timelines leave behind, so switching to the
+ * mobile layout (or rebuilding) cannot inherit a stale offset.
+ */
+export function disposeCharTimeline() {
+  charTimelines.forEach(killTimeline);
+  charTimelines = [];
+  if (intensityInterval !== undefined) {
+    window.clearInterval(intensityInterval);
+    intensityInterval = undefined;
+  }
+  glowTimeline?.kill();
+  glowTimeline = null;
+  charMode = null;
+  gsap.set(
+    [
+      ".character-model",
+      ".landing-container",
+      ".about-section",
+      ".about-me",
+      ".whatIDO",
+      ".character-rim",
+      ".what-box-in",
+    ],
+    { clearProps: "transform,opacity,display" }
+  );
+}
+
 export function setCharTimeline(
   character: THREE.Object3D<THREE.Object3DEventMap> | null,
   camera: THREE.PerspectiveCamera
 ) {
+  disposeCharTimeline();
+
+  const isDesktop = window.innerWidth > 1024;
+  charMode = isDesktop ? "desktop" : "mobile";
+
   let intensity: number = 0;
-  setInterval(() => {
+  intensityInterval = window.setInterval(() => {
     intensity = Math.random();
   }, 200);
+
   const tl1 = gsap.timeline({
     scrollTrigger: {
       trigger: ".landing-section",
@@ -36,6 +99,8 @@ export function setCharTimeline(
       invalidateOnRefresh: true,
     },
   });
+  charTimelines.push(tl1, tl2, tl3);
+
   let screenLight: THREE.Mesh | null = null;
   let monitor: THREE.Mesh | null = null;
   character?.children.forEach((object) => {
@@ -57,16 +122,18 @@ export function setCharTimeline(
       material.transparent = true;
       material.opacity = 0;
       material.emissive.set("#C8BFFF");
-      gsap.timeline({ repeat: -1, repeatRefresh: true }).to(material, {
-        emissiveIntensity: () => intensity * 8,
-        duration: () => Math.random() * 0.6,
-        delay: () => Math.random() * 0.1,
-      });
+      glowTimeline = gsap
+        .timeline({ repeat: -1, repeatRefresh: true })
+        .to(material, {
+          emissiveIntensity: () => intensity * 8,
+          duration: () => Math.random() * 0.6,
+          delay: () => Math.random() * 0.1,
+        });
       screenLight = mesh;
     }
   });
   const neckBone = character?.getObjectByName("spine005");
-  if (window.innerWidth > 1024) {
+  if (isDesktop) {
     if (character) {
       tl1
         .fromTo(character.rotation, { y: 0 }, { y: 0.7, duration: 1 }, 0)
@@ -147,13 +214,16 @@ export function setCharTimeline(
           end: "bottom top",
         },
       });
+      charTimelines.push(tM2);
       tM2.to(".what-box-in", { display: "flex", duration: 0.1, delay: 0 }, 0);
     }
   }
 }
 
 export function setAllTimeline() {
-  const careerTimeline = gsap.timeline({
+  killTimeline(careerTimeline);
+
+  const timeline = gsap.timeline({
     scrollTrigger: {
       trigger: ".career-section",
       start: "top 30%",
@@ -162,7 +232,9 @@ export function setAllTimeline() {
       invalidateOnRefresh: true,
     },
   });
-  careerTimeline
+  careerTimeline = timeline;
+
+  timeline
     .fromTo(
       ".career-timeline",
       { maxHeight: "10%" },
@@ -194,14 +266,14 @@ export function setAllTimeline() {
     );
 
   if (window.innerWidth > 1024) {
-    careerTimeline.fromTo(
+    timeline.fromTo(
       ".career-section",
       { y: 0 },
       { y: "20%", duration: 0.5, delay: 0.2 },
       0
     );
   } else {
-    careerTimeline.fromTo(
+    timeline.fromTo(
       ".career-section",
       { y: 0 },
       { y: 0, duration: 0.5, delay: 0.2 },

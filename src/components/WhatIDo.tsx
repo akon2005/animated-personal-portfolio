@@ -8,19 +8,22 @@ const WhatIDo = () => {
     containerRef.current[index] = el;
   };
   useEffect(() => {
-    if (ScrollTrigger.isTouch) {
-      containerRef.current.forEach((container) => {
-        if (container) {
-          container.classList.remove("what-noTouch");
-          container.addEventListener("click", () => handleClick(container));
-        }
-      });
-    }
+    if (!ScrollTrigger.isTouch) return;
+
+    // Keep the handler references so the same functions are removed again - the
+    // old cleanup created new arrow functions, so the listeners stayed attached.
+    const listeners: Array<[HTMLDivElement, () => void]> = [];
+    containerRef.current.forEach((container) => {
+      if (!container) return;
+      container.classList.remove("what-noTouch");
+      const listener = () => handleClick(container);
+      container.addEventListener("click", listener);
+      listeners.push([container, listener]);
+    });
+
     return () => {
-      containerRef.current.forEach((container) => {
-        if (container) {
-          container.removeEventListener("click", () => handleClick(container));
-        }
+      listeners.forEach(([container, listener]) => {
+        container.removeEventListener("click", listener);
       });
     };
   }, []);

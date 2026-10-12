@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/images/logo.webp" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume — Vinayak Tripathy</title>
+    <meta
+      name="description"
+      content="Resume of Vinayak Tripathy — Computer Science Engineer | AI/ML & Software Development. Read the complete PDF online, open it in a new tab, or download it."
+    />
+    <link
+      rel="canonical"
+      href="https://animated-personal-portfolio-smoky.vercel.app/resume"
+    />
+    <meta name="theme-color" content="#05020a" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Resume — Vinayak Tripathy" />
+    <meta
+      property="og:description"
+      content="Computer Science Engineer | AI/ML & Software Development — full resume (PDF)."
+    />
+    <meta
+      property="og:url"
+      content="https://animated-personal-portfolio-smoky.vercel.app/resume"
+    />
+    <meta
+      property="og:image"
+      content="https://animated-personal-portfolio-smoky.vercel.app/images/profile.jpg"
+    />
+    <link rel="stylesheet" href="/src/resume.css" />
+  </head>
+  <body>
+    <header class="resume-header">
+      <a class="resume-back" href="/">&#8592; Back to portfolio</a>
+      <div class="resume-actions">
+        <a
+          class="resume-action"
+          href="/Resume.pdf"
+          download="Vinayak_Tripathy_Resume.pdf"
+          >Download Resume (PDF)</a
+        >
+        <a
+          class="resume-action resume-action-primary"
+          href="/Resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Open PDF in new tab</a
+        >
+      </div>
+    </header>
+
+    <main class="resume-main">
+      <div class="resume-intro">
+        <h1>Vinayak Tripathy</h1>
+        <p>Computer Science Engineer | AI/ML &amp; Software Development</p>
+      </div>
+
+      <div class="resume-viewer">
+        <p class="resume-status" id="resumeStatus" role="status">
+          <span class="resume-spinner" aria-hidden="true"></span>
+          Loading resume…
+        </p>
+
+        <iframe
+          id="resumeFrame"
+          class="resume-frame"
+          src="/Resume.pdf#view=FitH"
+          title="Vinayak Tripathy — Resume (PDF)"
+        ></iframe>
+
+        <p class="resume-status resume-status-error" id="resumeStatusError" hidden>
+          The embedded PDF preview could not be displayed here. Your browser can
+          still
+          <a href="/Resume.pdf" target="_blank" rel="noopener noreferrer"
+            >open the resume in a new tab</a
+          >
+          or
+          <a href="/Resume.pdf" download="Vinayak_Tripathy_Resume.pdf"
+            >download it</a
+          >.
+        </p>
+
+        <noscript>
+          <p class="resume-status">
+            JavaScript is disabled in this browser — please
+            <a href="/Resume.pdf">open the resume PDF</a> directly.
+          </p>
+        </noscript>
+      </div>
+
+      <p class="resume-hint" id="resumeHint" hidden>
+        Tip: if the preview does not appear, use
+        <a href="/Resume.pdf" target="_blank" rel="noopener noreferrer"
+          >Open PDF in new tab</a
+        >
+        — every page of the original resume is available there.
+      </p>
+    </main>
+
+    <script type="module" src="/src/resume.ts"></script>
+  </body>
+</html>

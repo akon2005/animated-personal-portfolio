@@ -11,6 +11,7 @@ import SocialIcons from "./SocialIcons";
 import WhatIDo from "./WhatIDo";
 import Work from "./Work";
 import setSplitText from "./utils/splitText";
+import ErrorBoundary from "./utils/ErrorBoundary";
 
 const TechStack = lazy(() => import("./TechStack"));
 
@@ -48,9 +49,11 @@ const MainContainer = ({ children }: PropsWithChildren) => {
             <Training />
             <Work />
             {isDesktopView && (
-              <Suspense fallback={<div>Loading....</div>}>
-                <TechStack />
-              </Suspense>
+              <ErrorBoundary label="Tech stack scene">
+                <Suspense fallback={<div>Loading....</div>}>
+                  <TechStack />
+                </Suspense>
+              </ErrorBoundary>
             )}
             <Contact />
           </div>

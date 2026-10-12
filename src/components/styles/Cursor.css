@@ -31,3 +31,9 @@
     --size: 0px;
   }
 }
+/* Touch devices have no pointer to follow, so the custom cursor stays hidden. */
+@media (hover: none), (pointer: coarse) {
+  .cursor-main {
+    display: none;
+  }
+}

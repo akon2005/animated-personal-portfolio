@@ -112,6 +112,39 @@ body {
   text-transform: uppercase;
 }
 
+/* Normal page copy stays selectable - only the decorative shell opts out of
+   selection via the `user-select: none` above. */
+p,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote,
+.para,
+.title {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* Honour the visitor's motion preference: decorative loops, spinners and
+   transitions stop, while scroll-driven GSAP animation stays user-controlled. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 @media screen and (min-width: 768px) {
   body {
     --cWidth: 94%;
