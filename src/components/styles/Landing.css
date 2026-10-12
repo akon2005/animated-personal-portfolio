@@ -223,12 +223,26 @@
 h2.landing-info-h2 {
   color: #c481ff;
   font-size: 42px;
-  width: 120%;
+  /* Was a hard 120%, which pushed the word past the viewport edge on narrow
+     phones and clipped it. */
+  width: 100%;
+  max-width: 100%;
   margin: 0;
   font-family: "Geist", sans-serif;
   font-weight: 600;
   position: relative;
   margin-left: -5px;
+}
+@media screen and (max-width: 430px) {
+  h2.landing-info-h2 {
+    font-size: 36px;
+    letter-spacing: 1px;
+  }
+  .landing-info h2 {
+    font-size: 28px;
+    line-height: 34px;
+    letter-spacing: 1px;
+  }
 }
 .landing-h2-2 {
   position: absolute;
@@ -247,6 +261,19 @@ h2.landing-info-h2 {
   );
   top: 0;
   left: 0;
+}
+/* On the stacked layouts the hero copy sits over the character's lower body, so
+   the bottom fade is raised and shortened to dissolve the character before the
+   copy starts - the text then always reads on the background. */
+@media screen and (max-width: 1024px) {
+  .character-model::after {
+    height: 300px;
+    background-image: linear-gradient(
+      to bottom,
+      transparent,
+      var(--backgroundColor) 45%
+    );
+  }
 }
 @media screen and (min-width: 500px) {
   .landing-circle2 {

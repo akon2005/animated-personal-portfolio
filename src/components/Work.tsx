@@ -23,7 +23,7 @@ const projects = [
     tools: "Python, OpenCV, PyTorch, Machine Learning",
     description:
       "A computer-vision system that analyses interview video and estimates interview presence from visual signals such as facial expressions, eye contact and posture. Frame-level signals are extracted with OpenCV and combined by a PyTorch model into a single presence score.",
-    image: "/images/project_ai_interview_1780234237819.png",
+    image: "/images/project_ai_interview.webp",
   },
 ];
 

@@ -1,3 +1,7 @@
+/* The cards are sized by their content. They used to live in a fixed 500px
+   column with 33%/50%/67% heights and `overflow: hidden`, which cut off the
+   skill tags and overlapped the next card - every tag and description is now
+   always visible. */
 .whatIDO {
   display: flex;
   align-items: center;
@@ -5,10 +9,13 @@
   place-items: center;
   position: relative;
   opacity: 1;
-  height: 100vh;
+  min-height: var(--vh);
+  height: auto;
   width: var(--cWidth);
   max-width: 1920px;
   margin: auto;
+  padding: 70px 0;
+  box-sizing: border-box;
   z-index: 9;
 }
 .what-box {
@@ -23,7 +30,7 @@
   line-height: calc(4vw + 20px);
   font-weight: 600;
   margin-right: 10%;
-  margin-bottom: 100px;
+  margin-bottom: 0;
 }
 
 .hat-h2 {
@@ -33,50 +40,54 @@
   color: var(--accentColor);
 }
 .what-box-in {
+  display: flex;
   flex-direction: column;
-  height: 500px;
-  margin-left: 200px;
+  gap: 18px;
+  width: 100%;
+  max-width: 540px;
+  margin-left: 0;
+  height: auto;
   position: relative;
-  display: none;
 }
 .what-content {
-  width: 450px;
-  height: 33%;
-  min-height: 50%;
-  transition: 0.5s;
-  /* border: 0.5px dashed rgba(255, 255, 255, 0.3); */
-  position: relative;
-  padding: 50px;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  padding: 40px 46px;
   box-sizing: border-box;
+  position: relative;
+  transition: transform 0.4s, background-color 0.4s, box-shadow 0.4s,
+    opacity 0.4s;
 }
 
+/* Hover / active affordance: the card lifts instead of resizing, so the tags
+   never reflow out of view. */
 .what-noTouch:hover,
 .what-content-active {
-  min-height: 67%;
-  padding: 40px 50px;
+  transform: translateY(-4px);
+  background-color: rgba(255, 255, 255, 0.035);
+  box-shadow: 0 10px 45px -20px rgba(168, 124, 255, 0.9);
 }
-
-.what-noTouch:hover ~ .what-content,
 .what-box-in:hover .what-noTouch:not(:hover),
 .what-content.what-sibling {
-  min-height: 33%;
-  padding: 10px 50px;
+  opacity: 0.62;
 }
 .what-content h3 {
-  font-size: 35px;
+  font-size: 32px;
   letter-spacing: 1px;
   margin: 0;
 }
 .what-content p {
   font-size: 14px;
-  line-height: 18px;
+  line-height: 20px;
   font-weight: 200;
   letter-spacing: 0.7px;
+  margin: 8px 0 0;
 }
 .what-content h4 {
   font-weight: 300;
   letter-spacing: 1px;
-  margin: 0px;
+  margin: 10px 0 0;
   font-size: 14px;
   opacity: 0.3;
 }
@@ -144,11 +155,13 @@
 }
 .what-arrow {
   position: absolute;
-  bottom: 20px;
-  right: 20px;
-  width: 25px;
-  height: 25px;
+  /* Sits inside the card padding so it can never land on the last tag row. */
+  bottom: 12px;
+  right: 14px;
+  width: 20px;
+  height: 20px;
   border: 1px solid #fff;
+  pointer-events: none;
 }
 .what-arrow::before {
   content: "";
@@ -183,14 +196,14 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: 450px;
+  width: 100%;
+  height: 100%;
 }
 .what-border2 {
   position: absolute;
-  top: 50%;
+  top: 0;
   width: 100%;
   left: 0;
-  transform: translateY(-50%);
   height: 100%;
   max-height: 0%;
   overflow: hidden;
@@ -199,22 +212,10 @@
   animation: whatBorders 1.2s 1 forwards;
 }
 .what-border2 svg {
-  height: 500px;
-  top: 50%;
-  transform: translateY(-50%);
-  position: absolute;
-}
-.what-content-in {
   height: 100%;
-  overflow: hidden;
-}
-.what-content-in h5 {
-  font-weight: 300;
-  opacity: 0.5;
-  font-size: 12px;
-  letter-spacing: 1px;
-  font-family: "Geist", sans-serif;
-  margin-bottom: 5px;
+  width: 100%;
+  top: 0;
+  position: absolute;
 }
 @keyframes whatBorders {
   80% {
@@ -228,17 +229,28 @@
 }
 .what-content-flex {
   display: flex;
-  gap: 5px;
+  gap: 6px;
   flex-wrap: wrap;
+  margin-top: 10px;
 }
 .what-tags {
   font-size: 13px;
   font-weight: 400;
-  padding: 2px 7px;
+  line-height: 1.5;
+  padding: 3px 9px;
   background-color: rgba(255, 255, 255, 0.15);
   border: 1px solid #ffffff50;
   border-radius: 30px;
 }
+.what-content h5 {
+  font-weight: 300;
+  opacity: 0.5;
+  font-size: 12px;
+  letter-spacing: 1px;
+  font-family: "Geist", sans-serif;
+  margin: 22px 0 0;
+}
+
 @media only screen and (max-width: 1600px) {
   .what-box h2 {
     margin-right: 18%;
@@ -249,140 +261,88 @@
     margin-right: 20%;
   }
   .what-box-in {
-    height: 400px;
+    max-width: 480px;
+  }
+  .what-content {
+    padding: 32px 36px;
   }
   .what-content h3 {
     font-size: 28px;
   }
-  .what-content {
-    padding: 30px;
-    width: 400px;
-  }
   .what-content p {
     font-size: 13px;
-  }
-  .what-noTouch:hover,
-  .what-content-active {
-    padding: 20px 30px;
-  }
-
-  .what-noTouch:hover ~ .what-content,
-  .what-box-in:hover .what-noTouch:not(:hover),
-  .what-content.what-sibling {
-    padding: 10px 30px;
+    line-height: 19px;
   }
   .what-tags {
     font-size: 12px;
   }
 }
-@media only screen and (max-width: 1400px) {
-  .what-box-in {
-    margin-left: 50px;
-  }
-  .what-content {
-    width: 380px;
-  }
-}
 @media only screen and (max-width: 1024px) {
   .whatIDO {
-    height: auto;
-    padding: 50px 0px;
-    padding-bottom: 50px;
-  }
-  .what-box-in {
-    height: 500px;
-    margin-left: -50px;
+    min-height: auto;
+    padding: 60px 0;
   }
   .what-content {
-    padding: 50px;
-    width: 500px;
+    padding: 34px 38px;
   }
-  .what-content p {
-    font-size: 14px;
-  }
-  .what-noTouch:hover,
-  .what-content-active {
-    min-height: 67%;
-    padding: 50px;
-  }
-
-  .what-noTouch:hover ~ .what-content,
-  .what-box-in:hover .what-noTouch:not(:hover),
-  .what-content.what-sibling {
-    min-height: 33%;
-    padding: 10px 50px;
+  .what-box-in {
+    max-width: 520px;
   }
 }
 @media only screen and (max-width: 900px) {
   .whatIDO {
     flex-direction: column;
-  }
-  .what-box h2 {
-    margin: 50px 0;
-    font-size: 55px;
-    line-height: 53px;
-  }
-  .what-box:first-child {
-    justify-content: left;
-  }
-  .what-box:last-child {
-    height: 500px;
+    gap: 10px;
+    align-items: stretch;
+    place-items: inherit;
+    justify-content: flex-start;
   }
   .what-box {
-    width: 500px;
-    max-width: calc(100% - 50px);
+    width: 100%;
+    max-width: calc(100% - 25px);
     margin: auto;
+    justify-content: flex-start;
+  }
+  .what-box h2 {
+    margin: 20px 0 30px;
+    font-size: clamp(38px, 13vw, 55px);
+    line-height: 1.02;
+  }
+  .what-box-in {
+    max-width: 100%;
+    width: 100%;
   }
   .what-content {
     width: 100%;
-  }
-  .what-box-in {
-    margin-left: 0px;
-    height: 450px;
-  }
-  .what-content h5,
-  .what-content-flex {
-    opacity: 0;
-    transition: 0.3s;
-  }
-  .what-noTouch:hover h5,
-  .what-content-active h5,
-  .what-noTouch:hover .what-content-flex,
-  .what-content-active .what-content-flex {
-    opacity: 1;
-  }
-  .what-content {
-    padding: 30px;
-  }
-  .what-content p {
-    font-size: 11px;
-  }
-  .what-noTouch:hover,
-  .what-content-active {
-    padding: 10px 30px;
-  }
-  .what-tags {
-    font-size: 11px;
-  }
-
-  .what-noTouch:hover ~ .what-content,
-  .what-box-in:hover .what-noTouch:not(:hover),
-  .what-content.what-sibling {
-    padding: 5px 30px;
+    padding: 28px 26px;
   }
   .what-content h3 {
     font-size: 25px;
   }
+  .what-content p {
+    font-size: 13px;
+    line-height: 19px;
+  }
+  .what-tags {
+    font-size: 11px;
+  }
+  /* The tags and the skill label used to be hidden behind a hover/tap state;
+     they are always visible now. */
+  .what-content h5,
+  .what-content-flex {
+    opacity: 1;
+  }
 }
 @media only screen and (max-width: 550px) {
-  .whatIDO {
-    place-items: inherit;
-    align-items: start;
-    justify-content: left;
-  }
   .what-box {
     max-width: calc(100% - 25px);
-    margin: 0;
+    margin: 0 auto;
+  }
+  .what-content {
+    padding: 24px 20px 34px;
+  }
+  .what-content h3 {
+    font-size: 23px;
   }
 }
 @media only screen and (min-width: 1950px) {
