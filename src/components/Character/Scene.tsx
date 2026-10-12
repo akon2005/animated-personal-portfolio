@@ -151,6 +151,8 @@ const Scene = () => {
     animate();
     return () => {
       disposed = true;
+      // Release this scene's progress loop so a remounted scene owns it.
+      progress.stop();
       cancelAnimationFrame(frameId);
       clearTimeout(debounce);
       window.clearTimeout(resizeTimer);

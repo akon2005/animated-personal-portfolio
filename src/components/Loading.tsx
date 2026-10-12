@@ -120,6 +120,14 @@ export const setProgress = (setLoading: (value: number) => void) => {
     setLoading(100);
   }
 
+  // Stops this instance's progress loop without touching the displayed value.
+  // A disposed scene must not keep writing to the shared loading state: those
+  // late updates reset the loader's completion timer and leave the page stuck
+  // on the loading screen (StrictMode mounts the scene twice in dev).
+  function stop() {
+    clearInterval(interval);
+  }
+
   function loaded() {
     return new Promise<number>((resolve) => {
       clearInterval(interval);
@@ -134,5 +142,5 @@ export const setProgress = (setLoading: (value: number) => void) => {
       }, 2);
     });
   }
-  return { loaded, percent, clear };
+  return { loaded, percent, clear, stop };
 };
