@@ -1,0 +1,58 @@
+/* Full-bleed word band. Deliberately large: it is the page's biggest piece of
+   type, and it gives the scroll a beat between two dense sections. */
+.marquee-band {
+  position: relative;
+  z-index: 9;
+  width: 100%;
+  margin: clamp(40px, 7vw, 96px) 0;
+  padding: clamp(30px, 5vw, 64px) 0;
+  overflow: hidden;
+  background-color: var(--color-surface-2);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.marquee-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  will-change: transform;
+}
+
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(16px, 2.2vw, 38px);
+  padding-right: clamp(16px, 2.2vw, 38px);
+  font-size: clamp(38px, 6.6vw, 104px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+/* Every other phrase is outlined in the accent, which keeps the band legible
+   and gives it the "sticker sheet" rhythm. */
+.marquee-item-alt {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--accent);
+}
+
+.marquee-dot {
+  flex: 0 0 auto;
+  width: clamp(8px, 1vw, 14px);
+  height: clamp(8px, 1vw, 14px);
+  border-radius: 50%;
+  background-color: var(--accent);
+  box-shadow: 0 0 14px var(--accent-glow);
+}
+
+/* Browsers without -webkit-text-stroke get solid accent text rather than
+   invisible words. */
+@supports not (-webkit-text-stroke: 1px black) {
+  .marquee-item-alt {
+    color: var(--accent-text);
+  }
+}

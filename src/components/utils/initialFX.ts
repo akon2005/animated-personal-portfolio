@@ -14,6 +14,10 @@ export function initialFX() {
     backgroundColor: themeBackground,
     duration: 0.5,
     delay: 1,
+    // Hand the background straight back to the theme tokens. A lingering inline
+    // colour wins over `body { background-color: var(--color-bg) }`, which left
+    // the page dark after switching to light mode - with dark-on-dark text.
+    clearProps: "backgroundColor",
   });
 
   const landingText = splitText(".landing-info h3, .landing-intro h2, .landing-intro h1");

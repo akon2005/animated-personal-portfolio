@@ -1,4 +1,5 @@
 import { PropsWithChildren } from "react";
+import ScrollCue from "./ScrollCue";
 import "./styles/Landing.css";
 
 const Landing = ({ children }: PropsWithChildren) => {
@@ -27,6 +28,7 @@ const Landing = ({ children }: PropsWithChildren) => {
               </h2>
             </div>
           </div>
+          <ScrollCue />
         </div>
         {children}
       </div>

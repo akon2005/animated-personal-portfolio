@@ -6,8 +6,11 @@ import Training from "./Training";
 import Contact from "./Contact";
 import Cursor from "./Cursor";
 import Landing from "./Landing";
+import MarqueeBand from "./MarqueeBand";
 import Navbar from "./Navbar";
+import ScrollProgress from "./ScrollProgress";
 import SocialIcons from "./SocialIcons";
+import StatsStrip from "./StatsStrip";
 import WhatIDo from "./WhatIDo";
 import Work from "./Work";
 import setSplitText from "./utils/splitText";
@@ -34,6 +37,7 @@ const MainContainer = ({ children }: PropsWithChildren) => {
 
   return (
     <div className="container-main">
+      <ScrollProgress />
       <Cursor />
       <Navbar />
       <SocialIcons />
@@ -47,6 +51,8 @@ const MainContainer = ({ children }: PropsWithChildren) => {
             <Education />
             <Career />
             <Training />
+            <StatsStrip />
+            <MarqueeBand />
             <Work />
             {isDesktopView && (
               <ErrorBoundary label="Tech stack scene">

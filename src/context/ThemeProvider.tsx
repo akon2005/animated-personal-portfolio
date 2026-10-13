@@ -58,6 +58,12 @@ export const ThemeProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     const root = document.documentElement;
     root.setAttribute("data-mode", resolvedMode);
+    // Belt and braces: a stray inline background on <body> would win over
+    // `--color-bg` and leave a mode looking half-applied, so the theme layer
+    // always reclaims it.
+    if (document.body.style.backgroundColor) {
+      document.body.style.removeProperty("background-color");
+    }
     root.style.setProperty("--accent", accent);
     root.style.setProperty("--accent-text", accentText);
     root.style.setProperty("--accent-contrast", accentContrast);

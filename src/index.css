@@ -119,6 +119,20 @@ body {
   text-transform: uppercase;
 }
 
+/* Available to assistive tech only: used to expose settled values that are
+   animated on screen (e.g. the count-up stats). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Normal page copy stays selectable - only the decorative shell opts out of
    selection via the `user-select: none` above. */
 p,
