@@ -13,7 +13,9 @@
       rel="canonical"
       href="https://animated-personal-portfolio-smoky.vercel.app/resume"
     />
-    <meta name="theme-color" content="#05020a" />
+    <meta name="theme-color" content="#0b080c" />
+    <!-- Applies the saved Light/Dark mode and accent before the first paint. -->
+    <script src="/theme-init.js"></script>
     <meta property="og:type" content="article" />
     <meta property="og:title" content="Resume — Vinayak Tripathy" />
     <meta
@@ -34,6 +36,14 @@
     <header class="resume-header">
       <a class="resume-back" href="/">&#8592; Back to portfolio</a>
       <div class="resume-actions">
+        <button
+          class="resume-mode"
+          id="resumeModeToggle"
+          type="button"
+          aria-live="polite"
+        >
+          Light mode
+        </button>
         <a
           class="resume-action"
           href="/Resume.pdf"

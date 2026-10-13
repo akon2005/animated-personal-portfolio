@@ -4,8 +4,14 @@ import { splitText } from "./textSplit";
 export function initialFX() {
   document.body.style.overflowY = "auto";
   document.getElementsByTagName("main")[0].classList.add("main-active");
+  // Resolve the themed page colour instead of a hardcoded dark value, so the
+  // loader hands over to the right background in either mode.
+  const themeBackground =
+    getComputedStyle(document.documentElement)
+      .getPropertyValue("--color-bg")
+      .trim() || "#0b080c";
   gsap.to("body", {
-    backgroundColor: "#0b080c",
+    backgroundColor: themeBackground,
     duration: 0.5,
     delay: 1,
   });

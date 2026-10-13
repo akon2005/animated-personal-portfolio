@@ -19,8 +19,8 @@
   position: fixed;
   width: 300px;
   height: 300px;
-  background-color: #fb8dff;
-  box-shadow: inset -50px 40px 50px rgba(84, 0, 255, 0.6);
+  background-color: var(--accent);
+  box-shadow: inset -50px 40px 50px var(--accent-deep);
   filter: blur(60px);
   border-radius: 50%;
   animation: loadingCircle 5s linear infinite;
@@ -58,8 +58,8 @@
   display: none;
   width: 300px;
   height: 300px;
-  background-color: #fb8dff;
-  box-shadow: inset -50px 40px 50px rgba(84, 0, 255, 0.6);
+  background-color: var(--accent);
+  box-shadow: inset -50px 40px 50px var(--accent-deep);
   filter: blur(50px);
   border-radius: 50%;
   animation: loadingCircle2 5s linear infinite;
@@ -87,9 +87,9 @@
   width: 400px;
   height: 400px;
   z-index: 1;
-  background-color: #f59bf8;
+  background-color: var(--accent);
   transform: translate(-50%, 36%) scaleX(1.4);
-  box-shadow: inset 66px 35px 85px 0px rgba(85, 0, 255, 0.65);
+  box-shadow: inset 66px 35px 85px 0px var(--accent-deep);
   filter: blur(50px);
   border-radius: 50%;
   top: 50%;
@@ -168,7 +168,7 @@
 }
 .landing-intro h2 {
   margin: 0;
-  color: var(--accentColor);
+  color: var(--accent-text);
   font-size: 22px;
   font-weight: 300;
   letter-spacing: 2px;
@@ -199,7 +199,7 @@
   font-size: 22px;
   letter-spacing: 2px;
   font-weight: 300;
-  color: var(--accentColor);
+  color: var(--accent-text);
   margin: 0;
 }
 .landing-info h2 {
@@ -221,7 +221,7 @@
   top: 0;
 }
 h2.landing-info-h2 {
-  color: #c481ff;
+  color: var(--accent-text);
   font-size: 42px;
   /* Was a hard 120%, which pushed the word past the viewport edge on narrow
      phones and clipped it. */

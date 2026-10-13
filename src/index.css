@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
+/* Theme tokens first: every rule below reads from them. */
+@import "./theme/tokens.css";
 
 :root {
   font-family: "Geist", sans-serif;
@@ -7,9 +9,8 @@
   font-style: normal;
   line-height: 1.5;
   scroll-behavior: smooth;
-  color-scheme: light dark;
-  color: #eae5ec;
-  background-color: var(--backgroundColor);
+  color: var(--color-text);
+  background-color: var(--color-bg);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -18,8 +19,6 @@
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
-  --accentColor: #00ffd5;
-  --backgroundColor: #0b080c;
   --vh: 100vh;
   --vh: 100svh;
 }
@@ -39,7 +38,7 @@ a {
   text-decoration: inherit;
 }
 a:hover {
-  color: var(--accentColor);
+  color: var(--accent-text);
 }
 main {
   opacity: 1;
@@ -58,8 +57,16 @@ main {
 body {
   margin: 0;
   height: auto;
-  background-color: #05020a;
-  background-image: radial-gradient(circle at 50% 0%, rgba(130, 90, 200, 0.15) 0%, transparent 60%);
+  background-color: var(--color-bg);
+  background-image: radial-gradient(
+    circle at 50% 0%,
+    var(--color-bg-glow) 0%,
+    transparent 60%
+  );
+  color: var(--color-text);
+  /* Only the page surface eases between themes - animating every element would
+     fight the GSAP scroll work. */
+  transition: background-color 0.35s ease, color 0.35s ease;
   flex-grow: 1;
   --cWidth: calc(100% - 30px);
   --cMaxWidth: 1920px;

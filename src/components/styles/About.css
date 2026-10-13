@@ -20,7 +20,7 @@
   text-transform: uppercase;
   letter-spacing: 7px;
   font-weight: 400;
-  color: var(--accentColor);
+  color: var(--accent-text);
 }
 
 .about-me p {
@@ -78,7 +78,7 @@
   border-radius: 50%;
   object-fit: cover;
   margin-top: 20px;
-  border: 3px solid var(--accentColor);
+  border: 3px solid var(--accent);
   transition: transform 0.3s ease;
   cursor: pointer;
   position: relative;

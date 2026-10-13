@@ -1,0 +1,398 @@
+/* Theme panel + navbar trigger.
+   Fixed positioning keeps the panel out of the GSAP scroll wrappers, so it can
+   never be clipped by a transformed ancestor or shift the page layout. */
+
+.theme-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background-color: transparent;
+  color: var(--color-text);
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.25s, border-color 0.25s, background-color 0.25s;
+}
+
+.theme-trigger:hover {
+  color: var(--accent-text);
+  border-color: var(--accent-border);
+  background-color: var(--accent-softer);
+}
+
+.theme-trigger[aria-expanded="true"] {
+  color: var(--accent-text);
+  border-color: var(--accent);
+}
+
+.theme-panel {
+  position: fixed;
+  top: 82px;
+  right: clamp(15px, 3vw, 45px);
+  z-index: 10000;
+  box-sizing: border-box;
+  width: min(340px, calc(100vw - 30px));
+  max-height: min(78vh, 720px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-card);
+  font-size: 13px;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-10px) scale(0.98);
+  transform-origin: top right;
+  transition: opacity 0.22s ease, transform 0.22s ease,
+    visibility 0s linear 0.22s;
+}
+
+.theme-panel.is-open {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0s;
+}
+
+.theme-panel :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.theme-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.theme-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+.theme-panel-title svg {
+  color: var(--accent-text);
+  font-size: 18px;
+}
+
+.theme-close {
+  display: flex;
+  padding: 6px;
+  border-radius: 9px;
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: var(--color-text-muted);
+  font-size: 19px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+}
+
+.theme-close:hover {
+  color: var(--color-text);
+  border-color: var(--color-border);
+  background-color: var(--color-surface-hover);
+}
+
+.theme-section {
+  margin-bottom: 16px;
+}
+
+.theme-label {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+/* ------------------------------------------------------------ mode toggle */
+
+.theme-mode {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.theme-mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text);
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: 11px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+}
+
+.theme-mode-btn:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.theme-mode-btn[aria-pressed="true"] {
+  color: var(--accent-text);
+  border-color: var(--accent);
+  background-color: var(--accent-soft);
+}
+
+.theme-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  margin-left: auto;
+  font-size: 15px;
+}
+
+/* --------------------------------------------------------- preset swatches */
+
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.theme-swatch {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 8px 10px;
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 500;
+  text-align: left;
+  color: var(--color-text);
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: 11px;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+
+.theme-swatch:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.theme-swatch[aria-pressed="true"] {
+  border-color: var(--swatch);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+.theme-swatch-dot {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--swatch);
+  color: var(--swatch-ink);
+  font-size: 13px;
+}
+
+.theme-swatch-name {
+  line-height: 1.25;
+}
+
+/* ------------------------------------------------------------ custom colour */
+
+.theme-color-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-color-input {
+  flex: 0 0 auto;
+  width: 46px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background-color: var(--color-surface-2);
+  cursor: pointer;
+}
+
+.theme-color-input::-webkit-color-swatch-wrapper {
+  padding: 3px;
+}
+
+.theme-color-input::-webkit-color-swatch,
+.theme-color-input::-moz-color-swatch {
+  border: none;
+  border-radius: 7px;
+}
+
+.theme-hex {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 38px;
+  padding: 0 12px;
+  font: inherit;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: var(--color-text);
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+}
+
+.theme-hex::placeholder {
+  color: var(--color-text-faint);
+}
+
+.theme-hex[aria-invalid="true"] {
+  border-color: var(--color-danger);
+}
+
+.theme-error {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-danger);
+}
+
+.theme-error code,
+.theme-current code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.theme-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 11px;
+  border: 1px dashed var(--color-border);
+  background-color: var(--color-surface-2);
+}
+
+.theme-preview-chip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+.theme-preview-text {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.theme-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.theme-apply {
+  flex: 1 1 auto;
+  padding: 10px 14px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-contrast);
+  background-color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.theme-apply:hover:not(:disabled) {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.theme-apply:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.theme-reset {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+}
+
+.theme-reset:hover {
+  color: var(--color-text);
+  border-color: var(--color-border-strong);
+  background-color: var(--color-surface-hover);
+}
+
+/* --------------------------------------------------------------- footer bits */
+
+.theme-current {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.theme-current-dot {
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border-strong);
+}
+
+.theme-note {
+  margin: 8px 0 0;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--color-text-faint);
+}
+
+@media (max-width: 500px) {
+  .theme-panel {
+    top: 62px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+    max-height: 76vh;
+  }
+}

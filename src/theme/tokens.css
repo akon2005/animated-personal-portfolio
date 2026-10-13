@@ -1,0 +1,103 @@
+/**
+ * Semantic theme tokens.
+ *
+ * Two axes, deliberately independent of each other:
+ *
+ *  1. Mode (`[data-mode="light"|"dark"]`) owns every neutral - background,
+ *     surfaces, text, borders, shadows and the loading overlay.
+ *  2. The accent (`--accent`) owns the colour identity and is only ever set by
+ *     the chosen preset or the visitor's custom colour. It is *not* redefined
+ *     inside a mode block, so changing mode keeps the accent exactly as chosen
+ *     while everything around it adapts.
+ *
+ * Accent variants are derived from `--accent` with `color-mix()`; the only
+ * JS-computed values are `--accent-contrast` (foreground for accent fills) and
+ * `--accent-text` (accent used as text, contrast-corrected when needed).
+ * Static fallbacks are declared first so browsers without `color-mix()`
+ * still get a usable accent tint.
+ */
+
+:root {
+  /* Mode-independent accent + derived variants. */
+  --accent: #0891b2;
+  --accent-text: var(--accent);
+  --accent-contrast: #000000;
+  --accent-soft: rgba(8, 145, 178, 0.14);
+  --accent-soft: color-mix(in srgb, var(--accent) 14%, transparent);
+  --accent-softer: rgba(8, 145, 178, 0.08);
+  --accent-softer: color-mix(in srgb, var(--accent) 8%, transparent);
+  --accent-border: rgba(8, 145, 178, 0.38);
+  --accent-border: color-mix(in srgb, var(--accent) 38%, transparent);
+  --accent-glow: rgba(8, 145, 178, 0.55);
+  --accent-glow: color-mix(in srgb, var(--accent) 55%, transparent);
+  --accent-deep: rgba(8, 145, 178, 0.85);
+  --accent-deep: color-mix(in srgb, var(--accent) 72%, #000);
+
+  /* Aliases kept so the existing rules that already used them keep working. */
+  --accentColor: var(--accent);
+  --backgroundColor: var(--color-bg);
+}
+
+/* ------------------------------------------------------------------ light */
+
+:root,
+[data-mode="light"] {
+  color-scheme: light;
+
+  --color-bg: #f2f3f8;
+  --color-bg-glow: rgba(126, 100, 220, 0.12);
+  --color-surface: #ffffff;
+  --color-surface-2: #f7f8fc;
+  --color-surface-hover: rgba(20, 22, 31, 0.045);
+  --color-text: #141621;
+  --color-text-muted: #545a6b;
+  /* 4.7:1 on the light background - faint, but still AA for small labels. */
+  --color-text-faint: #666d7c;
+  --color-border: #e0e3ec;
+  --color-border-strong: #c6cbda;
+  --color-chip-bg: rgba(20, 22, 31, 0.06);
+  --color-chip-border: rgba(20, 22, 31, 0.16);
+  --shadow-card: 0 10px 30px rgba(20, 24, 40, 0.1);
+  --shadow-soft: 0 4px 14px rgba(20, 24, 40, 0.08);
+  --color-danger: #c8342f;
+
+  /* Accent variants that lean on the mode: darken on light, lighten on dark. */
+  --accent-hover: color-mix(in srgb, var(--accent) 76%, #000);
+
+  /* Loading overlay. */
+  --loader-bg: #eae5ec;
+  --loader-pill: #12101a;
+  --loader-pill-text: #f4f1f8;
+  --loader-fg: #12101a;
+}
+
+/* ------------------------------------------------------------------- dark */
+
+[data-mode="dark"] {
+  color-scheme: dark;
+
+  --color-bg: #0b080c;
+  --color-bg-glow: rgba(130, 90, 200, 0.16);
+  --color-surface: #151119;
+  --color-surface-2: #1b1620;
+  --color-surface-hover: rgba(255, 255, 255, 0.045);
+  --color-text: #eae5ec;
+  --color-text-muted: #a8a3b0;
+  --color-text-faint: #837e8c;
+  --color-border: #322c38;
+  --color-border-strong: #4a4353;
+  --color-chip-bg: rgba(255, 255, 255, 0.08);
+  --color-chip-border: rgba(255, 255, 255, 0.2);
+  --shadow-card: 0 18px 40px rgba(0, 0, 0, 0.45);
+  --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.35);
+  --color-danger: #ff6b6b;
+
+  --accent-hover: color-mix(in srgb, var(--accent) 82%, #fff);
+
+  /* The pill stays a dark surface in dark mode so the click animation expands
+     into the page colour instead of flashing the screen white. */
+  --loader-bg: #0b080c;
+  --loader-pill: #241d2c;
+  --loader-pill-text: #f2eef7;
+  --loader-fg: #eae5ec;
+}

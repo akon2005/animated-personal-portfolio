@@ -28,7 +28,7 @@
 }
 a.contact-social {
   font-size: 25px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--color-border-strong);
 }
 .contact-box h2 {
   font-weight: 400;
@@ -36,7 +36,7 @@ a.contact-social {
   margin: 0;
 }
 .contact-box h2 > span {
-  color: var(--accentColor);
+  color: var(--accent-text);
 }
 .contact-box h5 {
   font-size: 20px;

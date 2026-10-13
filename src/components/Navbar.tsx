@@ -1,8 +1,12 @@
 import { useEffect } from "react";
+import { TbPalette } from "react-icons/tb";
 import HoverLinks from "./HoverLinks";
+import { useTheme } from "../theme/themeContext";
 import "./styles/Navbar.css";
 
 const Navbar = () => {
+  const { panelOpen, setPanelOpen, resolvedMode } = useTheme();
+
   useEffect(() => {
     const links = document.querySelectorAll(".header ul a");
     const handlers: Array<[HTMLAnchorElement, (e: Event) => void]> = [];
@@ -65,6 +69,19 @@ const Navbar = () => {
             <a href="/resume" data-cursor="disable">
               <HoverLinks text="RESUME" />
             </a>
+          </li>
+          <li>
+            <button
+              type="button"
+              className="theme-trigger"
+              aria-label="Theme settings"
+              aria-haspopup="dialog"
+              aria-expanded={panelOpen}
+              title={`Theme settings (${resolvedMode} mode)`}
+              onClick={() => setPanelOpen(!panelOpen)}
+            >
+              <TbPalette aria-hidden="true" />
+            </button>
           </li>
         </ul>
       </div>

@@ -16,5 +16,5 @@
 }
 .hover-link:hover .hover-in {
   transform: translateY(-100%);
-  color: var(--accentColor);
+  color: var(--accent-text);
 }

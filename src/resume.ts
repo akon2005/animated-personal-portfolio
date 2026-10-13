@@ -68,3 +68,66 @@ window.addEventListener("pageshow", () => {
     frame.setAttribute("src", `${PDF_URL}#view=FitH`);
   }
 });
+
+/**
+ * Light/Dark switch.
+ *
+ * `/resume` is its own entry point, so it re-implements only the slice of the
+ * theme state it needs. Everything else - the accent in particular - is left
+ * exactly as the visitor set it on the portfolio, because the accent does not
+ * belong to the mode.
+ */
+const THEME_KEY = "portfolio-theme";
+const MODE_BACKGROUND = { light: "#f2f3f8", dark: "#0b080c" } as const;
+
+const modeToggle = document.getElementById("resumeModeToggle");
+
+type Mode = keyof typeof MODE_BACKGROUND;
+
+function readTheme(): Record<string, unknown> {
+  try {
+    const parsed: unknown = JSON.parse(
+      window.localStorage.getItem(THEME_KEY) || "null"
+    );
+    return parsed && typeof parsed === "object"
+      ? (parsed as Record<string, unknown>)
+      : {};
+  } catch {
+    return {};
+  }
+}
+
+/** The mode the bootstrap script already put on <html>. */
+function activeMode(): Mode {
+  const attribute = document.documentElement.getAttribute("data-mode");
+  if (attribute === "light" || attribute === "dark") return attribute;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+}
+
+function applyMode(mode: Mode) {
+  document.documentElement.setAttribute("data-mode", mode);
+  document
+    .querySelector('meta[name="theme-color"]')
+    ?.setAttribute("content", MODE_BACKGROUND[mode]);
+  if (modeToggle) {
+    // The label names the mode the button switches to.
+    modeToggle.textContent = mode === "light" ? "Dark mode" : "Light mode";
+  }
+}
+
+applyMode(activeMode());
+
+modeToggle?.addEventListener("click", () => {
+  const next: Mode = activeMode() === "dark" ? "light" : "dark";
+  applyMode(next);
+  try {
+    window.localStorage.setItem(
+      THEME_KEY,
+      JSON.stringify({ ...readTheme(), mode: next })
+    );
+  } catch {
+    // Not being able to remember the choice must not break the page.
+  }
+});
